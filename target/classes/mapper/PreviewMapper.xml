@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.PreviewMapper">
+	<insert id="add">
+		INSERT INTO `yuce` (`img`, `userid`, `identy`) VALUES (#{yuceEntity.img}, #{yuceEntity.userid}, #{yuceEntity.identy})
+	</insert>
+	<delete id="del">
+		DELETE FROM `yuce` WHERE (`listid`=#{id}) AND (`userid`=#{uid})
+	</delete>
+
+	<select id="show" resultType="com.example.demo.entity.YuceEntity">
+		select * from yuce where userid = #{uid}
+	</select>
+</mapper>

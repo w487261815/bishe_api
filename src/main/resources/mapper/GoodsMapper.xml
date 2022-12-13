@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.GoodsMapper">
+	<update id="addpost">
+		UPDATE `annimalshow` SET `post`=#{post} WHERE (`id`=#{uid})
+	</update>
+
+
+	<select id="show" resultType="com.example.demo.api.vo.GoodsVo">
+		SELECT annimalshow.*,basedata.name FROM `annimalshow`,basedata
+		where annimalshow.uid = basedata.uid
+		LIMIT #{dividePage.start}, #{dividePage.limit}
+	</select>
+	<select id="showgoods" resultType="com.example.demo.api.vo.GoodsVo">
+		SELECT annimalshow.*,basedata.* FROM `annimalshow`,basedata
+		where annimalshow.uid = basedata.uid
+		AND id=#{dividePage.ids}
+		LIMIT #{dividePage.start}, #{dividePage.limit}
+	</select>
+	<select id="showtj" resultType="com.example.demo.api.vo.GoodsVo">
+		SELECT * FROM `annimalshow` ORDER BY `post` DESC LIMIT 0, 5
+	</select>
+</mapper>

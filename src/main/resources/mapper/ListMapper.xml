@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.ListMapper">
+	<insert id="add">
+		INSERT INTO `list` (
+			`productId`,
+			`userid`,
+			`status`,
+			`identy`,
+			`cityid`
+		)
+	VALUES
+		(#{addListParam.productId},#{addListParam.userid}, #{addListParam.status}, #{addListParam.identy}, #{addListParam.cityid})
+	</insert>
+	<update id="changeSta">
+		UPDATE `list` SET `status`='1' WHERE (`listid`=#{listid}) AND `userid`=#{uid}
+	</update>
+	<delete id="del">
+		DELETE FROM `list` WHERE (`listid`=#{ids}) AND (`userid`=#{uid})
+	</delete>
+	<select id="show" resultType="com.example.demo.entity.ListEntity">
+		SELECT
+		annimalshow.*, list.`status`,
+		list.listid,
+		address.`address`
+		FROM
+		address,
+		annimalshow,
+		list
+		WHERE
+		list.productId = annimalshow.id
+		AND
+		address.adid = list.cityid
+		AND
+		list.userid = #{showGwc.uid}
+		<if test="showGwc.status == 0">
+			AND status = 0
+		</if>
+		<if test="showGwc.status == 1">
+			AND status = 1
+		</if>
+		LIMIT #{showGwc.start}, #{showGwc.limit}
+	</select>
+</mapper>

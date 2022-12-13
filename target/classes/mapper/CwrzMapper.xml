@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CwrzMapper">
+	<insert id="add">
+		INSERT INTO `cwrz` (
+			`userid`,
+			`name`,
+			`sex`,
+			`city`,
+			`age`,
+			`img`,
+			`identy`
+		)
+		VALUES
+		(
+			#{cwrzParam.uid},
+			#{cwrzParam.name},
+			#{cwrzParam.sex},
+			#{cwrzParam.city},
+			#{cwrzParam.age},
+			#{cwrzParam.img},
+			#{cwrzParam.identy}
+		)
+	</insert>
+
+	<select id="select" resultType="com.example.demo.entity.CwrzEntity">
+		SELECT * FROM `cwrz` WHERE userid = #{uid} LIMIT 0, 4
+	</select>
+	<select id="show" resultType="com.example.demo.entity.CwrzEntity">
+		SELECT cwrz.*,basedata.name as uname,basedata.tel FROM `cwrz`,basedata
+		WHERE basedata.city = #{showCityAnimalParam.city} AND cwrz.userid = basedata.uid
+		LIMIT #{showCityAnimalParam.start}, #{showCityAnimalParam.limit}
+	</select>
+	<select id="shownewRz" resultType="com.example.demo.entity.CwrzEntity">
+		select * from cwrz order by identy desc limit 0,3
+	</select>
+	<select id="showsexnum" resultType="com.example.demo.entity.ShowSexNumEntity">
+		select sex,count(*) as num from cwrz GROUP BY sex
+	</select>
+    <select id="showcity" resultType="com.example.demo.entity.CityEntity">
+		select city,count(*) as num from cwrz GROUP BY city ORDER BY num desc limit 0,5
+	</select>
+
+
+</mapper>

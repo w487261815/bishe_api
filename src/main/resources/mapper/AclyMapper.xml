@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AclyMapper">
+    <insert id="add">
+	INSERT INTO `cwly` (
+		`content`,
+		`time`,
+		`uid`,
+		`post`,
+		`imgSrc`,
+		`title`,
+		`imgSrc1`,
+		`imgSrc2`
+		)
+	VALUES
+		(
+			#{addAclyParam.content},
+			#{addAclyParam.time},
+			#{addAclyParam.uid},
+			'0',
+			#{addAclyParam.imgSrc},
+			#{addAclyParam.title},
+			#{addAclyParam.imgSrc1},
+			#{addAclyParam.imgSrc2}
+		)
+	</insert>
+	<insert id="addpost">
+		UPDATE `cwly` SET post = post+1 WHERE (`id`=#{id})
+	</insert>
+	<insert id="addPosted">
+		 INSERT INTO `posted`
+       		 (`comid`, `uid`, `list`)
+         VALUES (#{posted.comid}, #{posted.uid}, #{posted.list})
+	</insert>
+	<update id="updatePosted">
+		 UPDATE `posted` SET list = #{posted.list} WHERE `id` = #{posted.id}
+	</update>
+
+	<select id="show" resultType="com.example.demo.entity.AclyEntity">
+		SELECT
+		basedata.imgSrc AS img,
+		basedata. NAME,
+		cwly.*
+		FROM
+		cwly,
+		basedata
+		WHERE basedata.uid = cwly.uid
+        <if test="showAclyParam.ConfigType==1">
+            ORDER BY `time` DESC
+        </if>
+        <if test="showAclyParam.ConfigType==2">
+            ORDER BY `post` DESC
+        </if>
+        <if test="showAclyParam.ConfigType==3">
+            AND (
+            `content` LIKE "%"#{showAclyParam.content}"%"
+			OR `title` LIKE "%"#{showAclyParam.content}"%"
+			)
+            ORDER BY `time` DESC
+        </if>
+
+        LIMIT #{showAclyParam.start}, #{showAclyParam.limit}
+    </select>
+	<select id="getPosted" resultType="com.example.demo.entity.Posted">
+		SELECT * FROM  `posted`
+        WHERE uid = #{uid}
+        AND comid = #{comid}
+	</select>
+</mapper>

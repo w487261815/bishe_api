@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.AnnimalUserMapper">
+    <insert id="register">
+        INSERT INTO `user` (`username`, `password`) VALUES (#{registerEntity.user}, #{registerEntity.pass})
+    </insert>
+    <insert id="addBase">
+        INSERT INTO `basedata` (
+        	`name`,
+        	`age`,
+        	`city`,
+        	`annum`,
+        	`post`,
+        	`lovernum`,
+        	`sex`,
+        	`registertime`,
+        	`imgSrc`,
+        	`tel`
+        )
+        VALUES
+    	(
+	    	#{registerEntity.name},
+	    	#{registerEntity.age},
+		    '无',
+		    '0',
+		    '0',
+		    '0',
+		    #{registerEntity.sex},
+	    	#{registerEntity.registertime},
+		    '20221103_064403805.jpg',
+	    	#{registerEntity.tel}
+	    )
+    </insert>
+	<update id="addpost">
+		UPDATE `basedata` SET post = post+1 WHERE (`uid`=#{uid})
+	</update>
+	<update id="updateName">
+        UPDATE `basedata` SET `name`=#{name} WHERE (`uid`=#{uid})
+    </update>
+    <update id="updatePass">
+        UPDATE `user` SET `password`=#{password} WHERE (`uid`=#{uid})
+    </update>
+    <update id="updateImg">
+		UPDATE `basedata` SET `imgSrc`=#{img_src} WHERE (`uid`=#{uid})
+	</update>
+    <update id="updateCity">
+		UPDATE `basedata` SET `city`=#{city} WHERE (`uid`=#{uid})
+	</update>
+
+    <select id="Login" resultType="com.example.demo.entity.LoginEntity">
+        SELECT * FROM `user` WHERE `username` = #{username}
+        <if test="password!='-1'">
+			AND `password` = #{password}
+		</if>
+    </select>
+
+    <select id="getInfo" resultType="com.example.demo.entity.UserInfoEntity">
+        select * from user,basedata where user.uid=basedata.uid and user.username = #{username}
+    </select>
+
+</mapper>
